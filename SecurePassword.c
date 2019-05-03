@@ -13,6 +13,7 @@ int main(){
 
 	char fullName[30];
 	char password[30];
+	char error[300] = "";
 
 	int numberOfUppercase = 0;
 	int numberOfLowercase = 0;
@@ -42,7 +43,6 @@ int main(){
 
 	//Get the length of the array.
 	int length = strlen(password);
-	printf("%d\n", length);
 	
 
 	//Check if the password meets the proper length requirements.
@@ -76,13 +76,29 @@ int main(){
 		}
 		if(numberOfSpecial >= 4){
 			has4Special = true;
-		}		
+		}
 	}else{
-		printf("Password is not long enough.");
+		strcpy(error, "Password is not long enough.");
+		printf("%s", error);
+	}
+
+	if(!has2Upper){
+		strcat(error, "Password must contain at least two uppercase letters.\n");
+	}
+	if(!has2Lower){
+		strcat(error, "Password must contain at least two lowercase letters.\n");
+	}
+	if(!numberOfNumbers){
+		strcat(error, "Password must contain at least four numbers.\n");
+	}
+	if(!numberOfSpecial){
+		strcat(error, "Password must contain at least four special characters.\n");
 	}
 
 	if(has2Upper == true && has2Lower == true && has4Numbers == true && has4Special == true){
 		printf("Congratulations! You have successfully created a new password!");
+	}else{
+		printf("%s",error);
 	}
 
 
