@@ -1,6 +1,6 @@
 //This program will ensure the user creates a secure password.
-//This passowrd will contain at least two uppercase letter, two lowercase letters, and
-//four special character. The password cannot contain the persons first or last name or a sequence
+//This passowrd will contain at least two uppercase letter, two lowercase letters,
+//four numbers and four special characters. The password cannot contain the persons first or last name or a sequence
 //of three of the same characters in a row. The password must also be at least nine characters in length 
 
 #include <stdlib.h>
@@ -16,10 +16,12 @@ int main(){
 
 	int numberOfUppercase = 0;
 	int numberOfLowercase = 0;
+	int numberOfNumbers = 0;
 	int numberOfSpecial = 0;
 
 	bool has2Upper = false;
 	bool has2Lower = false;
+	bool has4Numbers = false;
 	bool has4Special = false;
 	bool containsFirstName = true;
 	bool containsLastName = true;
@@ -46,7 +48,7 @@ int main(){
 	//Check if the password meets the proper length requirements.
 	if(length >= 9){
 
-		//Check if the password contains two uppercase letters, two lowercase letters and four special characters.
+		//Check if the password contains at least two uppercase letters, two lowercase letters four numbers and four special characters.
 		for(int index = 0; index < length; index++){
 			char tempCharacter = password[index];
 
@@ -56,14 +58,33 @@ int main(){
 				}else if(islower(tempCharacter)){
 					numberOfLowercase++;
 				}
+			}else if(isdigit(tempCharacter)){
+				numberOfNumbers++;
+			}else{
+				numberOfSpecial++;
 			}
 		}
-		printf("Number of uppercase letters: %d", numberOfUppercase);
-		printf("Number of lowercase letters: %d", numberOfLowercase);
-		
+
+		if(numberOfUppercase >= 2){
+			has2Upper = true;
+		}
+		if(numberOfLowercase >= 2){
+			has2Lower = true;
+		}
+		if(numberOfNumbers >= 4){
+			has4Numbers = true;
+		}
+		if(numberOfSpecial >= 4){
+			has4Special = true;
+		}		
 	}else{
 		printf("Password is not long enough.");
 	}
+
+	if(has2Upper == true && has2Lower == true && has4Numbers == true && has4Special == true){
+		printf("Congratulations! You have successfully created a new password!");
+	}
+
 
 	return 0;
 }
