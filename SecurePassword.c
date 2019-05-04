@@ -14,6 +14,7 @@ int main(){
 	char fullName[30];
 	char password[30];
 	char error[300] = "";
+	char threeInARow[3] = {0};
 
 	int numberOfUppercase = 0;
 	int numberOfLowercase = 0;
@@ -24,8 +25,9 @@ int main(){
 	bool has2Lower = false;
 	bool has4Numbers = false;
 	bool has4Special = false;
-	bool containsFirstName = true;
-	bool containsLastName = true;
+	bool hasFirstName = true;
+	bool hasLastName = true;
+	bool has3InARow = false;
 
 	//Introduction, prompt the user for their first and last name and give instructions on how to create secure password.
 	printf("Hello user what is your name?\n");
@@ -63,6 +65,26 @@ int main(){
 			}else{
 				numberOfSpecial++;
 			}
+
+			//Check if the password contains three squential leters.
+			int counter = 0;
+
+			while(counter < 3){
+				threeInARow[counter] = password[index];
+				counter++;
+				if(threeInARow[0] != 0 && threeInARow[1] != 0 && threeInARow[2] != 0){
+					if(threeInARow[0] == threeInARow[1] && threeInARow[1] == threeInARow[2]){
+						has3InARow = true;
+					}else{
+						break;
+					}
+				}else{
+					continue;
+				}
+			}
+
+
+
 		}
 
 		if(numberOfUppercase >= 2){
@@ -93,6 +115,9 @@ int main(){
 	}
 	if(!numberOfSpecial){
 		strcat(error, "Password must contain at least four special characters.\n");
+	}
+	if(has3InARow){
+                strcat(error, "Password must not contain three sequential characters.\n");
 	}
 
 	if(has2Upper == true && has2Lower == true && has4Numbers == true && has4Special == true){
