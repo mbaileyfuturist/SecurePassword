@@ -25,14 +25,26 @@ int main(){
 	bool has2Lower = false;
 	bool has4Numbers = false;
 	bool has4Special = false;
-	bool hasFirstName = true;
-	bool hasLastName = true;
+	bool hasFirstOrLast = false;
 	bool has3InARow = false;
 
-	//Introduction, prompt the user for their first and last name and give instructions on how to create secure password.
+	//Introduction, prompt the user for their first and last name.
 	printf("Hello user what is your name?\n");
 	scanf("%[^\n]", fullName);
 
+	//Grab the first and last name and store them into their own character arrays.
+	char *nameSplit[25];
+	
+	char *token = strtok(fullName, " ");
+
+	int index = 0;
+	while(token != NULL){
+		nameSplit[index] = token;
+		token = strtok(NULL, " ");
+		index++;
+	}
+	
+	//Give instructions on how to create a proper password.
 	printf("\n");
 	printf("%s please create a secure password.\n", fullName);
 	printf("The password must contain at least two upper case letters, two lower case letters, and four\n");
@@ -49,6 +61,13 @@ int main(){
 
 	//Check if the password meets the proper length requirements.
 	if(length >= 9){
+
+		//Check if the password contains the users first or last name.
+		if(strstr(password, nameSplit[0]) || strstr(password, nameSplit[1])){
+			hasFirstOrLast = true;
+		}
+
+
 
 		//Check if the password contains at least two uppercase letters, two lowercase letters four numbers and four special characters.
 		for(int index = 0; index < length; index++){
@@ -118,6 +137,9 @@ int main(){
 	}
 	if(has3InARow){
                 strcat(error, "Password must not contain three sequential characters.\n");
+	}
+	if(hasFirstOrLast){
+		strcat(error, "Password must not contain first or last name.");
 	}
 
 	if(has2Upper == true && has2Lower == true && has4Numbers == true && has4Special == true){
